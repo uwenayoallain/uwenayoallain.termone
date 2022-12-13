@@ -9,7 +9,7 @@
 
 #### Back end:
 
-- Go to `api` folder and run `npm start`
+- Go to `api` folder and run `npm run start`, `npm run test`
 
 ### Configuration
 
