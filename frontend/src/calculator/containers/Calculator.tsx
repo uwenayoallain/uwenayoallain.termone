@@ -10,7 +10,7 @@ import { calculatorReducer, initialState } from "../reducer";
 
 const useStyles = makeStyles({
   root: {
-    backgroundColor: "#e3e3e3",
+    backgroundColor: "#f0f0f0",
     padding: 16,
     border: "2px solid black",
     borderRadius: 8,
@@ -20,12 +20,8 @@ const useStyles = makeStyles({
 export const Calculator: React.FC = () => {
   const classes = useStyles();
 
-  const {
-    handleCalculate,
-    handleClear,
-    handleNumber,
-    handleOperation,
-  } = useCalculator();
+  const { handleCalculate, handleClear, handleNumber, handleOperation } =
+    useCalculator();
 
   return (
     <Paper elevation={10} className={classes.root}>

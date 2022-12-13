@@ -13,23 +13,35 @@ export const ClientCalculatorEngine: CalculatorEngine = {
   subtract: (a, b) => a - b,
   multiply: (a, b) => a * b,
   divide: (a, b) => a / b,
+  log: (a, b) => a * Math.log10(b),
+  ln: (a, b) => a * Math.log(b),
+  power: (a, b) => Math.pow(a, b)
 };
 
 const serverURL = process.env.REACT_APP_API_URL || "http://localhost:3000";
 
-const calculateOnServer = (
-  operation: MathOperationType,
-  a: number,
-  b: number
-) =>
-  window
-    .fetch(`${serverURL}/${operation}/${a}/${b}`)
-    .then((res) => res.json())
-    .then(({ result }) => result);
-
+const calculateOnServer = async (
+  operand1: number,
+  operand2: number,
+  operator: "-" | "+" | "/" | "*" | "**" | "ln" | "log"
+) => {
+  const response = await fetch(`${serverURL}/domath`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ calc: { operand1, operand2, operator } })
+  });
+  const result = await response.json();
+  return result.calcResponse
+}
 export const ServerCalculatorEngine: CalculatorEngine = {
-  add: async (a, b) => calculateOnServer("add", a, b),
-  subtract: async (a, b) => calculateOnServer("subtract", a, b),
-  multiply: async (a, b) => calculateOnServer("multiply", a, b),
-  divide: async (a, b) => calculateOnServer("divide", a, b),
+  add: (a, b) => calculateOnServer(a, b, "+"),
+  subtract: (a, b) => calculateOnServer(a, b, "-"),
+  multiply: (a, b) => calculateOnServer(a, b, "*"),
+  divide: (a, b) => calculateOnServer(a, b, "/"),
+  log: (a, b) => calculateOnServer(a, b, "log"),
+  ln: (a, b) => calculateOnServer(a, b, "ln"),
+  power: (a, b) => calculateOnServer(a, b, "**")
 };

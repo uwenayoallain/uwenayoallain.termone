@@ -1,5 +1,5 @@
 import { ServerCalculatorEngine } from "./engine/calculator-engine";
-export type MathOperationType = "add" | "subtract" | "multiply" | "divide";
+export type MathOperationType = "add" | "subtract" | "multiply" | "divide"| "power" |"log"| "ln";
 
 export type Mode = "first" | "second";
 
