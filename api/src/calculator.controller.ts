@@ -1,39 +1,14 @@
-import { Controller, Get, Query, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Post, Body, Res } from '@nestjs/common';
 import { AppService } from './calculator.service';
+import { doMathDto } from './domath.dto';
 
 @Controller()
 export class CalculatorController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly appService: AppService) { }
 
-  @Get('add/:a/:b')
-  add(
-    @Param('a', new ParseIntPipe()) a: number,
-    @Param('b', new ParseIntPipe()) b: number,
-  ) {
-    return { result: a + b };
-  }
-
-  @Get('subtract/:a/:b')
-  subtract(
-    @Param('a', new ParseIntPipe()) a: number,
-    @Param('b', new ParseIntPipe()) b: number,
-  ) {
-    return { result: a - b };
-  }
-
-  @Get('multiply/:a/:b')
-  multiply(
-    @Param('a', new ParseIntPipe()) a: number,
-    @Param('b', new ParseIntPipe()) b: number,
-  ) {
-    return { result: a * b };
-  }
-
-  @Get('divide/:a/:b')
-  divide(
-    @Param('a', new ParseIntPipe()) a: number,
-    @Param('b', new ParseIntPipe()) b: number,
-  ) {
-    return { result: a / b };
+  @Post()
+  operate(@Body() doMathDto: doMathDto) {
+    const result: number = this.appService.doMath(doMathDto.operand1, doMathDto.operand2, doMathDto.operator);
+    return { "calcResponse": result }
   }
 }
